@@ -1,0 +1,42 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.approval-circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.gray-circle {
+    background-color: gray;
+}
+
+.green-circle {
+    background-color: green;
+}
+
+.cross-circle {
+    border-width: 1px;
+    text-decoration: line-through; /* Add a line through the circle */
+}

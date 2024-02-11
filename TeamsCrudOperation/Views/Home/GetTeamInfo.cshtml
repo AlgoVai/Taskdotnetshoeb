@@ -1,0 +1,133 @@
+﻿@model List<TeamsCrudOperation.Models.TeamInfo>;
+@{
+    ViewData["Title"] = "GetTeamInfo";
+}
+</br>
+<h1>Teams</h1>
+<link rel="stylesheet" href="site.css"> 
+<script src="site.js"></script>
+
+<form asp-action="SearchItem" asp-controller="Home" method="get">
+    <input style="width:100%" type="text" name="text" placeholder="Search by team name">
+  
+    <button  type="submit">Search</button>
+</form>
+</br>
+<div style="text-align:right">
+ <a class="btn btn-success" asp-area="" asp-controller="Home" asp-action="CreateTeam">New</a>
+</div>
+
+<table style="width:100%;">
+    <colgroup>
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+
+    </colgroup>
+
+    <tr>
+        <td>
+            Name
+        </td>
+        <td>
+            Approved By Manager
+        </td>
+        <td>
+            Approved By Director
+        </td>
+        <td>
+            Action
+        </td>
+     
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr >
+            <td>
+                @x.TeamName
+            </td>
+            <td>
+                @{
+                    string Content = "";
+                    string circleColor = "gray"; // Default color
+                    switch (@x.ApprovedByManager)
+                    {
+                        case 1:
+                            Content = "✓";
+                            circleColor = "green";
+                           
+                            break;
+                        case 2:
+                            Content = "✖️";
+                            circleColor = "red";
+                            
+                            break;
+                        default:
+                            Content = "";
+                            circleColor = "gray";
+                            
+                            break;
+                    }
+                }
+                <span class="approval-circle"
+                      data-teamid="@x.TeamId"
+                      data-approved="@x.ApprovedByManager"
+                      data-flag="0"
+                      style="background-color: @circleColor;"
+                      onclick="updateApprovalStatus(this)">
+                    @Content
+                </span>
+                
+            </td>
+        
+
+          @*   <td>
+                <span class="approval-circle" data-teamid="@x.TeamId" data-approved="@x.ApprovedByManager" data-flag="0" onclick="updateApprovalStatus(this)"></span>
+            </td> *@
+@* 
+            <td>
+                <span class="approval-circle" data-teamid="@x.TeamId" data-approved="@x.ApprovedByDirector" data-flag="1" onclick="updateApprovalStatus(this)"></span>
+                
+            </td> *@
+
+            <td>
+                @{
+                    string circleContent = "";
+                    string Color = "gray"; // Default color
+                    switch (@x.ApprovedByDirector)
+                    {
+                        case 1:
+                            circleContent = "✓";
+                            Color = "green";
+                            break;
+                        case 2:
+                            circleContent = "✖️";
+                            Color = "red";
+                            break;
+                        default:
+                            circleContent = "";
+                            Color = "gray";
+                            break;
+                    }
+                }
+                <span class="approval-circle"
+                      data-teamid="@x.TeamId"
+                      data-approved="@x.ApprovedByDirector"
+                      data-flag="1"
+                      style="background-color: @Color;"
+                      onclick="updateApprovalStatus(this)">
+                    @circleContent
+                </span>
+            </td>
+
+          
+
+            <td>
+                @Html.ActionLink("Edit", "EditTeam", new { id = x.TeamId }) |
+                @Html.ActionLink("Delete","DeleteTeam", new {id=x.TeamId})
+            </td>
+        </tr>
+    }
+</table>
+
